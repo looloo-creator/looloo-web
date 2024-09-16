@@ -5,13 +5,18 @@
                 <mat-card-header>
                     <div class="col-md-12 p-24">
                         <mat-card-title>{{tourName}}
-                            <button mat-fab extended class="float-right m-l-20" [routerLink]="['/tours/list']"
+                            <button *ngIf="memberId" mat-fab extended class="float-right m-l-20" [routerLink]="['/tours/addmember']"
+                                [queryParams]="{tour_id:tourId}">
+                                <mat-icon>close</mat-icon>
+                                Close
+                            </button>
+                            <button *ngIf="!memberId" mat-fab extended class="float-right m-l-20" [routerLink]="['/tours/list']"
                                 [queryParams]="{tour_id:tourId}">
                                 <mat-icon>close</mat-icon>
                                 Close
                             </button>
                             <button type="button" mat-fab extended class="float-right m-b-20 m-l-20"
-                                [routerLink]="'/tours/report'" [queryParams]="{tour_id: tourId}">
+                                [routerLink]="'/tours/report'" [queryParams]="{tour_id: tourId, member_id: memberId}">
                                 <mat-icon>account_balance</mat-icon>
                                 Statement
                             </button>
@@ -126,7 +131,7 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-3" *ngFor="let member of members">
-                                    <mat-checkbox [formControlName]="member._id" [value]="member._id" [checked]="member.checked"
+                                    <mat-checkbox [value]="member._id" [checked]="member.checked"
                                         (change)="selectMember($event.source.value, $event.checked)">
                                         <span class="f-w-500"><i> {{member.name | titlecase}}</i></span>
                                     </mat-checkbox>

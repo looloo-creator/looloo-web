@@ -23,6 +23,7 @@ export class AccountsComponent implements OnInit {
   tourId: string | null;
   tourName: string = '';
   preview: boolean = false;
+  memberId: string;
 
   accountsForm = new FormGroup({
     type: new FormControl('collection', [Validators.required]),
@@ -42,6 +43,7 @@ export class AccountsComponent implements OnInit {
   ngOnInit(): void {
 
     this.tourId = this.commonService.queryParams()?.tour_id ?? null;
+    this.memberId = this.commonService.queryParams()?.member_id ?? null;
     if (!this.tourId) {
       this.commonService.redirect('tours/list')
     } else {
@@ -69,6 +71,12 @@ export class AccountsComponent implements OnInit {
             });
           });
         })
+      } else if (this.memberId) {
+        this.memberService.getMembers(this.tourId).then(members => {
+          this.members = members;
+          this.selectMember(this.memberId, true);
+          this.accountsForm.patchValue({ collected_from: this.memberId });
+        });
       }
     }
   }
@@ -118,7 +126,9 @@ export class AccountsComponent implements OnInit {
               this.selectAll(false);
               this.transactionId = null;
               if (modalResponse.redirection) {
-                this.commonService.redirect("tours/report", { tour_id: this.tourId })
+                let queryParams: Record<string, any> = { tour_id: this.tourId };
+                if (this.memberId) { queryParams = { member_id: this.memberId, ...queryParams } }
+                this.commonService.redirect("tours/report", queryParams);
               }
             }
           })

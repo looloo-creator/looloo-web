@@ -12,7 +12,7 @@ import { ToursService } from 'src/app/services/pages/tours/tours.service';
 export class ReportComponent {
 
   transactionColumns: string[] = ['position', 'date', 'name', 'shares', 'description', 'amount', 'action'];
-  memberTransactionColumns: string[] = ['position', 'date', 'name', 'shares', 'description', 'amount', 'share'];
+  memberTransactionColumns: string[] = ['position', 'date', 'name', 'shares', 'description', 'amount', 'share', 'action'];
   transactions: any = [];
   members: any = [];
   tourId: string;

@@ -1,3 +1,3 @@
 export const environment = {
-    apiDomain: "http://localhost:3000/"
+    apiDomain: "http://api.onepay.com/"
 };
