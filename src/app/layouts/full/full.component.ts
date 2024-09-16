@@ -23,7 +23,7 @@ export class FullComponent implements OnInit {
   private isContentWidthFixed = true;
   private isCollapsedWidthFixed = false;
   private htmlElement!: HTMLHtmlElement;
-
+  loader: boolean = false;
   get isOver(): boolean {
     return this.isMobileScreen;
   }
@@ -41,7 +41,7 @@ export class FullComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();
@@ -57,5 +57,11 @@ export class FullComponent implements OnInit {
 
   onSidenavOpenedChange(isOpened: boolean) {
     this.isCollapsedWidthFixed = !this.isOver;
+  }
+  showLoader = () => {
+    this.loader = true;
+  }
+  hideLoader = () => {
+    this.loader = false;
   }
 }

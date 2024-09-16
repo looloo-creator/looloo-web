@@ -6,6 +6,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { CommonService } from 'src/app/services/common.service';
 
 
 @Component({
@@ -22,5 +24,9 @@ export class HeaderComponent {
 
   showFiller = false;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private commonService: CommonService, private authService: AuthService) { }
+  logout = () => {
+    this.authService.logout();
+    this.commonService.redirect("/authentication/login");
+  }
 }

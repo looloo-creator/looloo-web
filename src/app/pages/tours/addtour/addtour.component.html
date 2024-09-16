@@ -1,0 +1,73 @@
+<div class="row">
+
+    <div class="col-lg-12">
+        <form [formGroup]="tourForm" (ngSubmit)="addTour()">
+            <mat-card class="cardWithShadow">
+                <mat-card-header>
+                    <div class="col-md-12 p-24">
+                        <mat-card-title>Add Tour
+                            <button type="button" mat-fab extended class="float-right m-b-20 m-l-20"
+                                [routerLink]="'/tours/list'">
+                                <mat-icon>{{ tourId ? 'arrow_back' :'close' }}</mat-icon>
+                                {{ tourId ? 'Back' :'Cancel' }}
+                            </button>
+                            <button type="submit" mat-fab extended class="float-right m-b-20">
+                                <mat-icon>upload</mat-icon>
+                                {{ tourId ? 'Update' :'Save' }}
+                            </button>
+                        </mat-card-title>
+
+                    </div>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="col-md-12 d-flex">
+                        <div class="col-md-4">
+                            <div class="input_group">
+                                <mat-form-field appearance="outline" class="w-100" color="primary">
+                                    <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Tour
+                                        Plan</mat-label>
+                                    <input matInput type="text" formControlName="plan" maxlength="25" />
+                                    <mat-error class="error"
+                                        *ngIf="atf.plan.errors?.['required'] && (tourFormSubmitted)">
+                                        Plan can't be empty
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input_group">
+                                <mat-form-field appearance="outline" class="w-100" color="primary">
+                                    <mat-label
+                                        class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Description</mat-label>
+                                    <input matInput type="text" formControlName="description" maxlength="250" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input_group">
+                                <mat-form-field appearance="outline" class="w-100" color="primary">
+                                    <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Plan
+                                        Date</mat-label>
+                                    <mat-date-range-input [rangePicker]="picker">
+                                        <input matStartDate placeholder="Start date" (click)="picker.open()" formControlName="planstartdate" readonly>
+                                        <input matEndDate placeholder="End date" (click)="picker.open()" formControlName="planenddate" readonly>
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+                                    <mat-error class="error"
+                                        *ngIf="atf.planstartdate.errors?.['required'] && (tourFormSubmitted)">
+                                        Plan Date can't be empty
+                                    </mat-error>
+                                    <mat-error class="error"
+                                        *ngIf="!atf.planstartdate.errors?.['required'] && atf.planenddate.errors?.['required'] && (tourFormSubmitted)">
+                                        Plan End Date can't be empty
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </form>
+    </div>
+</div>

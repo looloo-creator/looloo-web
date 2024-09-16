@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Modernize": {
+    "OnepayAdmin": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Modernize",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -26,7 +26,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
-              "src/assets/scss/style.scss",
+              "src/assets/scss/style.scss"
             ],
             "scripts": []
           },
@@ -52,7 +52,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -61,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Modernize:build:production"
+              "browserTarget": "OnepayAdmin:build:production"
             },
             "development": {
-              "browserTarget": "Modernize:build:development"
+              "browserTarget": "OnepayAdmin:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Modernize:build"
+            "browserTarget": "OnepayAdmin:build"
           }
         },
         "test": {

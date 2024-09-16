@@ -1,0 +1,18 @@
+version: "3.0"
+services:
+  app:
+    build: .
+    restart: always
+    container_name: one-pay-admin
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "4200:4200"
+    networks:
+      - one_pay_network
+
+networks:
+  one_pay_network:
+    external: true

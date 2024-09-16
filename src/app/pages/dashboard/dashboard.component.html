@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="0">
   <!-- --------------------------------------------------------------------------- -->
   <!-- Sales Overview -->
   <!-- --------------------------------------------------------------------------- -->
@@ -297,7 +297,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="0">
   <div class="col-sm-6 col-lg-3" *ngFor="let productcard of productcards">
     <mat-card class="cardWithShadow productcard overflow-hidden">
       <a routerLink="/widgets/cards">
@@ -348,4 +348,8 @@
       </mat-card-content>
     </mat-card>
   </div>
+</div>
+
+<div class="row" >
+  <h3>Welcome Buddy...</h3>
 </div>

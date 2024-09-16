@@ -131,6 +131,7 @@ const ELEMENT_DATA: productsData[] = [
   encapsulation: ViewEncapsulation.None,
 })
 export class AppDashboardComponent {
+
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
 
   public salesOverviewChart!: Partial<salesOverviewChart> | any;

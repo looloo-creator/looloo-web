@@ -2,6 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { NavItem } from './nav-item';
 import { Router } from '@angular/router';
 import { NavService } from '../../../../services/nav.service';
+import { navItems } from '../sidebar-data';
 
 @Component({
   selector: 'app-nav-item',
@@ -20,7 +21,18 @@ export class AppNavItemComponent implements OnChanges {
 
   ngOnChanges() {
     this.navService.currentUrl.subscribe((url: string) => {
+      navItems.forEach((element: NavItem | any) => {
+        element['active'] = false;
+      });
       if (this.item.route && url) {
+        if (this.item.innerRoutes) {
+          this.item.innerRoutes.forEach((element: any) => {
+            if (this.router.isActive(element, false)) {
+              this.item['active'] = true;
+            };
+          });
+
+        }
       }
     });
   }

@@ -1,0 +1,18 @@
+.tour-table {
+    tr {
+        position: relative;
+        height: 80px;
+    }
+
+    .accounts {
+        position: absolute;
+        top: 54px;
+        left: 0;
+
+        .tile {
+            background: lightgrey;
+            border: 1px solid #fff;
+            border-radius: 10px;
+        }
+    }
+}
