@@ -9,7 +9,7 @@
             </a>
           </div>
 
-          <div class="row m-t-24 custom-row">
+          <div class="row m-t-24 custom-row" *ngIf="0">
             <div class="col-12 col-sm-12">
               <button mat-stroked-button class="w-100">
                 <div class="d-flex align-items-center">
@@ -20,7 +20,7 @@
             </div>
           </div>
 
-          <div class="or-border m-t-30">or sign in with</div>
+          <div class="or-border m-t-30" *ngIf="0">or sign in with</div>
 
           <form class="m-t-30" [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="input_group">

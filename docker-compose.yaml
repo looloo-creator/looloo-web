@@ -10,3 +10,9 @@ services:
       - /usr/src/app/node_modules
     ports:
       - "4200:4200"
+    networks:
+      - one_pay_network
+
+networks:
+  one_pay_network:
+    external: true
