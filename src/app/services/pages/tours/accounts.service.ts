@@ -54,7 +54,6 @@ export class AccountsService {
       this.commonService.request("accounts/delete", "POST", {
         account_id: accountId
       }).then((response: any) => {
-        console.log("response", response)
         if (response.success && response.statusCode == "R216") {
           this.accountsUpdated[tourId] = false;
           resolve(true);

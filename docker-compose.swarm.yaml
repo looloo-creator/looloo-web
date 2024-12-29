@@ -1,0 +1,15 @@
+version: "3.0"
+services:
+  app:
+    image: rajasekar9698/one-pay-nginx:1.0.0
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "4200:80"
+    networks:
+      - one_pay_swarm_network
+
+networks:
+  one_pay_swarm_network:
+    external: true

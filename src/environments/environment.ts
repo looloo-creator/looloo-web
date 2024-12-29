@@ -1,3 +1,3 @@
 export const environment = {
-    apiDomain: "http://api.onepay.com/"
+    apiDomain: "https://rajashekarkalisamy.ddns.net/api/"
 };
