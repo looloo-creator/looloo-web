@@ -94,10 +94,6 @@ export class AddmemberComponent implements OnInit {
               this.wallet[element._id]['collection'] = this.wallet[element._id]['collection'] + Number((memberTransaction.amount / memberTransaction.members.length).toFixed(2));
             } else {
               this.wallet[element._id]['expenditure'] = this.wallet[element._id]['expenditure'] + Number((memberTransaction.amount / memberTransaction.members.length).toFixed(2));
-
-              if (element.name == 'Jawahar') {
-                console.log(this.wallet[element._id]['expenditure'], memberTransaction.amount, memberTransaction.members.length, Number((memberTransaction.amount / memberTransaction.members.length).toFixed(2)))
-              }
             }
           });
 

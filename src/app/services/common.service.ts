@@ -25,7 +25,6 @@ export class CommonService {
     return new Promise((resolve, reject) => {
       if (type == "GET") {
         this.http.get(environment.apiDomain + endPoint).subscribe((response: any) => {
-          console.log(response);
           if (response.success) {
             this.showToaster(response.type, response.message);
             resolve(response);
@@ -40,7 +39,6 @@ export class CommonService {
         });
       } else {
         this.http.post(environment.apiDomain + endPoint, data).subscribe((response: any) => {
-          console.log(response);
           if (response.success) {
             this.showToaster(response.type, response.message);
             resolve(response);

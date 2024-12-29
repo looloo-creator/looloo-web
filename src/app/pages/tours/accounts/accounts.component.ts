@@ -135,7 +135,6 @@ export class AccountsComponent implements OnInit {
         }
       });
     } else {
-      console.log(this.af, this.selectedMembers)
     }
   }
 
