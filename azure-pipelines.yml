@@ -7,7 +7,7 @@ resources:
 - repo: self
 
 variables:
-  imageName: 'rajasekar9698/one-pay-app'
+  imageName: 'rajasekar9698/one-pay-admin'
 
 stages:
 - stage: Build
