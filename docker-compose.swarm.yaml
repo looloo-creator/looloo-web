@@ -1,13 +1,7 @@
 version: "3.0"
 services:
   app:
-    image: rajasekar9698/one-pay-admin:1.0.0
-    build:
-      context: .
-      dockerfile: Dockerfile.production
-    volumes:
-      - ./dist:/usr/share/nginx/html:ro
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    image: rajasekar9698/one-pay-admin:latest
     ports:
       - "4200:80"
     networks:
