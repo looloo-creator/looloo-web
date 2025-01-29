@@ -33,3 +33,8 @@ stages:
         command: push
         repository: $(imageName)
         containerRegistry: 'DockerHubConnection'
+
+    - bash: |
+       docker image prune -a -f
+
+      displayName: 'Remove Unused Docker Images'
