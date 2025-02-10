@@ -71,7 +71,7 @@ export class ReportComponent {
           if (this.memberId) {
             if (element.members.indexOf(this.memberId) === -1) { return; }
           }
-          let name = element.collected_from ? this.members.find((member: any) => member._id == element.collected_from).name : ''
+          let name = element.collected_from ? this.members.find((member: any) => member._id == element.collected_from)?.name : ''
           let tour: any = {
             position: i++,
             account_id: element._id,
