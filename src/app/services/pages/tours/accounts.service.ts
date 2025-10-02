@@ -15,7 +15,7 @@ export class AccountsService {
     return new Promise((resolve, reject) => {
       this.commonService.request("accounts/create", "POST", data).then((response: any) => {
         if (response.success) {
-          this.accountsUpdated[data.tour_id] = false;
+          this.accountsUpdated[response.data.tour_id] = false;
           resolve(response);
         }
       });
@@ -38,7 +38,6 @@ export class AccountsService {
         console.error("Error updating accounts list", error);
       }
     }
-
     if (this.accountsUpdated[tourId]) {
       return this.accountsList[tourId];
     } else {
@@ -58,6 +57,16 @@ export class AccountsService {
           this.accountsUpdated[tourId] = false;
           resolve(true);
         }
+      });
+    })
+  }
+  /* Delete Account - Start */
+
+  /* Get File - Start */
+  getfile = (file: string) => {
+    return new Promise((resolve, reject) => {
+      this.commonService.request(`accounts/preview/${file}`, "GET", {}, { responseType: 'blob' }).then((response: any) => {
+        resolve(response);
       });
     })
   }

@@ -22,8 +22,12 @@ export class AccountsComponent implements OnInit {
   transactionId: string | null;
   tourId: string | null;
   tourName: string = '';
-  preview: boolean = false;
   memberId: string;
+  selectedFile: File;
+  file = "";
+  selectedFileName = "";
+  selectedFileBase64String = "";
+  fileremoved = false;
 
   accountsForm = new FormGroup({
     type: new FormControl('collection', [Validators.required]),
@@ -69,6 +73,8 @@ export class AccountsComponent implements OnInit {
             (transaction.members).forEach((memberId: string) => {
               this.selectMember(memberId, true)
             });
+            this.selectedFileName = transaction.fileName ?? "";
+            this.file = transaction.file ?? "";
           });
         })
       } else if (this.memberId) {
@@ -103,16 +109,22 @@ export class AccountsComponent implements OnInit {
         shareAmount: (Number(this.af.amount.value) / this.selectedMembers.length).toFixed(2)
       }).then((modalResponse: any) => {
         if (modalResponse && modalResponse.confirm) {
-          const data = {
-            account_id: this.transactionId,
-            tour_id: this.tourId,
-            type: this.af.type.value,
-            date: this.af.date.value,
-            collected_from: this.af.collected_from.value,
-            amount: this.af.amount.value,
-            reason: this.af.reason.value,
-            members: this.selectedMembers
+          const data = new FormData();
+          if (this.transactionId) data.append("account_id", this.transactionId);
+          if (this.tourId) data.append("tour_id", this.tourId);
+          if (this.af.type.value) data.append("type", this.af.type.value);
+          if (this.af.date.value) data.append("date", this.af.date.value);
+          if (this.af.collected_from.value) data.append("collected_from", this.af.collected_from.value);
+          if (this.af.amount.value) data.append("amount", this.af.amount.value);
+          if (this.af.reason.value) data.append("reason", this.af.reason.value);
+          if (this.fileremoved) data.append("fileremoved", "1");
+          if (this.selectedMembers.length > 0) {
+            this.selectedMembers.forEach((m: string) => {
+              data.append('members[]', m); // repeat the field
+            });
           }
+
+          if (this.selectedFile) data.append("file", this.selectedFile, this.selectedFile.name);
           this.accountsService.create(data).then((response: any) => {
             if (response.statusCode == "R214" || response.statusCode == "R215") {
               this.accountsFormSubmitted = false;
@@ -125,6 +137,7 @@ export class AccountsComponent implements OnInit {
               });
               this.selectAll(false);
               this.transactionId = null;
+              this.selectedFileName = "";
               if (modalResponse.redirection) {
                 let queryParams: Record<string, any> = { tour_id: this.tourId };
                 if (this.memberId) { queryParams = { member_id: this.memberId, ...queryParams } }
@@ -166,5 +179,80 @@ export class AccountsComponent implements OnInit {
     this.accountsForm.updateValueAndValidity();
     if (this.af.type.value != "collection") { this.accountsForm.patchValue({ collected_from: null }) };
     this.accountsFormSubmitted = false;
+  }
+
+  fileSelect = (event: any): void => {
+    this.fileremoved = true;
+    this.selectedFileName = "";
+    this.selectedFile = event.target.files[0];
+    if (this.selectedFile) {
+      this.fileremoved = false;
+      this.selectedFileName = this.selectedFile.name;
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.selectedFileBase64String = e.target.result;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+  preview = () => {
+    if (this.selectedFileName) {
+      if (this.selectedFile) {
+        const newWindow = window.open('', '_blank');
+        if (!newWindow) return;
+
+        if (this.selectedFile?.type.startsWith('image/')) {
+          newWindow.document.write(`<img src="${this.selectedFileBase64String}" style="max-width:100%;height:auto;">`);
+        } else if (this.selectedFile?.type === 'application/pdf') {
+          newWindow.document.write(`<iframe src="${this.selectedFileBase64String}" width="100%" height="100%"></iframe>`);
+        } else {
+          newWindow.document.write(`<a href="${this.selectedFileBase64String}" download="${this.selectedFileName}">Download ${this.selectedFileName}</a>`);
+        }
+      } else {
+        this.accountsService.getfile(this.file).then((fileBlob: any) => {
+          const newWindow = window.open('', '_blank');
+          if (!newWindow) return;
+
+          const fileExtension = this.selectedFileName.split('.').pop()?.toLowerCase();
+
+          const mimeMap: Record<string, string> = {
+            pdf: 'application/pdf',
+            png: 'image/png',
+            jpg: 'image/jpeg',
+            jpeg: 'image/jpeg',
+            gif: 'image/gif',
+            bmp: 'image/bmp',
+            webp: 'image/webp'
+          };
+
+          let blobWithType = fileBlob;
+          const correctMime = mimeMap[fileExtension!];
+          if (correctMime && fileBlob.type !== correctMime) {
+            blobWithType = new Blob([fileBlob], { type: correctMime });
+          }
+
+          const fileURL = URL.createObjectURL(blobWithType);
+
+          if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'].includes(fileExtension!)) {
+            newWindow.document.write(`<img src="${fileURL}" style="max-width:100%;height:auto;">`);
+          } else if (fileExtension === 'pdf') {
+            newWindow.document.write(`<iframe src="${fileURL}" width="100%" height="100%"></iframe>`);
+          } else {
+            newWindow.document.write(`<a href="${fileURL}" download="${this.selectedFileName}">Download ${this.selectedFileName}</a>`);
+          }
+
+          newWindow.onbeforeunload = () => {
+            URL.revokeObjectURL(fileURL);
+          };
+
+        })
+      }
+    }
+  }
+
+  removefile = () => {
+    this.fileremoved = true;
+    this.selectedFileName = "";
   }
 }

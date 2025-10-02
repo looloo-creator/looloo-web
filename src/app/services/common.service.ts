@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from './http/http.service';
 import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
 import { STATUS } from '../config/index.config';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../pages/common/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from './auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -15,20 +14,23 @@ export class CommonService {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   constructor(
     private activeRoute: ActivatedRoute,
-    private http: HttpService,
+    private http: HttpClient,
     private _snackBar: MatSnackBar,
     private _router: Router,
     private dialog: MatDialog,
   ) { }
 
-  request = (endPoint: string, type = "GET", data: any = {}) => {
+  request = (endPoint: string, type = "GET", data: any = {}, headers: any = {}) => {
     return new Promise((resolve, reject) => {
       if (type == "GET") {
-        this.http.get(environment.apiDomain + endPoint).subscribe((response: any) => {
+        this.http.get(environment.apiDomain + endPoint, headers).subscribe((response: any) => {
+          if (response instanceof Blob) {
+            resolve(response);
+          }
           if (response.success) {
             this.showToaster(response.type, response.message);
             resolve(response);
-            if(response.statusCode =="R401"){
+            if (response.statusCode == "R401") {
               localStorage.removeItem('auth_token');
               this.redirect("/authentication/login")
             }
@@ -42,7 +44,7 @@ export class CommonService {
           if (response.success) {
             this.showToaster(response.type, response.message);
             resolve(response);
-            if(response.statusCode =="R401"){
+            if (response.statusCode == "R401") {
               localStorage.removeItem('auth_token');
               this.redirect("/authentication/login")
             }

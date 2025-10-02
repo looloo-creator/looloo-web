@@ -11,8 +11,8 @@ import { ToursService } from 'src/app/services/pages/tours/tours.service';
 })
 export class ReportComponent {
 
-  transactionColumns: string[] = ['position', 'date', 'name', 'shares', 'description', 'amount', 'action'];
-  memberTransactionColumns: string[] = ['position', 'date', 'name', 'shares', 'description', 'amount', 'share', 'action'];
+  transactionColumns: string[] = ['position', 'date', 'name', 'shares', 'description', 'credit', 'debit', 'balance', 'action'];
+  memberTransactionColumns: string[] = ['position', 'date', 'name', 'shares', 'description', 'credit', 'debit', 'balance', 'action'];
   transactions: any = [];
   members: any = [];
   tourId: string;
@@ -83,11 +83,17 @@ export class ReportComponent {
             amount: element.type == "collection" ? `+ ${(element.amount).toFixed(2)}` : `- ${(element.amount).toFixed(2)}`,
             share_amount: element.type == "collection" ? `+ ${(element.amount / element.members.length).toFixed(2)}` : `- ${(element.amount / element.members.length).toFixed(2)}`,
           };
+          let transaction = (this.memberId ? Number((element.amount / element.members.length).toFixed(2)) : Number((element.amount).toFixed(2)));
           if (element.type == "collection") {
-            this.collection = this.collection + (this.memberId ? Number((element.amount / element.members.length).toFixed(2)) : Number((element.amount).toFixed(2)));
+            this.collection = this.collection + transaction;
+            tour['credit'] = transaction.toFixed(2);
+            tour['debit'] = "-";
           } else {
-            this.expenditure = this.expenditure + (this.memberId ? Number((element.amount / element.members.length).toFixed(2)) : Number((element.amount).toFixed(2)));
+            this.expenditure = this.expenditure + transaction;
+            tour['credit'] = "-";
+            tour['debit'] = transaction.toFixed(2);
           }
+          tour['balance'] = Number(this.collection - this.expenditure).toFixed(2);
           this.transactions.push(tour);
         });
       });
