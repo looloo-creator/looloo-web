@@ -9,13 +9,17 @@ import {
 import { Observable, BehaviorSubject, throwError, from } from 'rxjs';
 import { catchError, switchMap, filter, take } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
+import { CommonService } from '../services/common.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private commonService: CommonService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -32,6 +36,9 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError((error) => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
           return this.handle401Error(request, next);
+        } else if (error instanceof HttpErrorResponse && error.status === 402) {
+          this.commonService.openToast(error.error.type, error.error.message);
+          this.authService.logout();
         } else if (error instanceof HttpErrorResponse && error.status === 403) {
           this.authService.logout();
         }
