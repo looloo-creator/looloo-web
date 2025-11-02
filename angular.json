@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "OnepayAdmin:build:production"
+              "buildTarget": "OnepayAdmin:build:production"
             },
             "development": {
-              "browserTarget": "OnepayAdmin:build:development"
+              "buildTarget": "OnepayAdmin:build:development"
             }
           },
           "options":{
@@ -81,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "OnepayAdmin:build"
+            "buildTarget": "OnepayAdmin:build"
           }
         },
         "test": {
