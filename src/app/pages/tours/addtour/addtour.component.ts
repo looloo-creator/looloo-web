@@ -4,9 +4,10 @@ import { CommonService } from 'src/app/services/common.service';
 import { ToursService } from 'src/app/services/pages/tours/tours.service';
 
 @Component({
-  selector: 'app-addtour',
-  templateUrl: './addtour.component.html',
-  styleUrls: ['./addtour.component.scss']
+    selector: 'app-addtour',
+    templateUrl: './addtour.component.html',
+    styleUrls: ['./addtour.component.scss'],
+    standalone: false
 })
 
 export class AddtourComponent implements OnInit {

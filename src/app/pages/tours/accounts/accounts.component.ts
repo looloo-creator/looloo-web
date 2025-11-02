@@ -7,9 +7,10 @@ import { ToursService } from 'src/app/services/pages/tours/tours.service';
 import { PreviewComponent } from './preview/preview.component';
 
 @Component({
-  selector: 'app-accounts',
-  templateUrl: './accounts.component.html',
-  styleUrls: ['./accounts.component.scss'],
+    selector: 'app-accounts',
+    templateUrl: './accounts.component.html',
+    styleUrls: ['./accounts.component.scss'],
+    standalone: false
 })
 export class AccountsComponent implements OnInit {
 

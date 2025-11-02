@@ -126,9 +126,10 @@ const ELEMENT_DATA: productsData[] = [
 ];
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class AppDashboardComponent {
 

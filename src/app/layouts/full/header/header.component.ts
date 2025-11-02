@@ -11,9 +11,10 @@ import { CommonService } from 'src/app/services/common.service';
 
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class HeaderComponent {
   @Input() showToggle = true;

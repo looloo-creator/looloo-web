@@ -3,9 +3,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
+    standalone: false
 })
 export class AppSideRegisterComponent {
   registerFormSubmitted: boolean = false;

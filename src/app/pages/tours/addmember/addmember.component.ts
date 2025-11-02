@@ -5,9 +5,10 @@ import { AccountsService } from 'src/app/services/pages/tours/accounts.service';
 import { MemberService } from 'src/app/services/pages/tours/member.service';
 
 @Component({
-  selector: 'app-addmember',
-  templateUrl: './addmember.component.html',
-  styleUrls: ['./addmember.component.scss']
+    selector: 'app-addmember',
+    templateUrl: './addmember.component.html',
+    styleUrls: ['./addmember.component.scss'],
+    standalone: false
 })
 export class AddmemberComponent implements OnInit {
   tourId: string | null;

@@ -5,9 +5,10 @@ import { MemberService } from 'src/app/services/pages/tours/member.service';
 import { ToursService } from 'src/app/services/pages/tours/tours.service';
 
 @Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+    selector: 'app-report',
+    templateUrl: './report.component.html',
+    styleUrls: ['./report.component.scss'],
+    standalone: false
 })
 export class ReportComponent {
 

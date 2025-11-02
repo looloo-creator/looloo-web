@@ -3,8 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    standalone: false
 })
 export class AppSideLoginComponent {
   loginFormSubmitted: boolean = false;
