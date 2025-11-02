@@ -16,6 +16,8 @@ import { AuthenticationRoutes } from './authentication.routing';
 
 import { AppSideLoginComponent } from './login/login.component';
 import { AppSideRegisterComponent } from './register/register.component';
+import { EmailVerificationComponent } from './email-verification/email-verification.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -24,6 +26,7 @@ import { AppSideRegisterComponent } from './register/register.component';
     MatIconModule,
     MatCardModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     MatCheckboxModule,
     MatButtonModule,
     FormsModule,
@@ -33,6 +36,7 @@ import { AppSideRegisterComponent } from './register/register.component';
   declarations: [
     AppSideLoginComponent,
     AppSideRegisterComponent,
+    EmailVerificationComponent,
   ],
 })
 export class AuthenticationModule {}
