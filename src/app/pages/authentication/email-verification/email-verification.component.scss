@@ -1,0 +1,11 @@
+.verify-email-progress{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    mat-progress-spinner{
+        width: 30px !important; 
+        height: 30px !important;
+    }
+}
