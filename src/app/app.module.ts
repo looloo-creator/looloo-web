@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,35 +29,28 @@ import { TokenInterceptor } from './interceptor/token.interceptor';
 import { ConfirmDialogComponent } from './pages/common/confirm-dialog/confirm-dialog.component';
 import { ModalComponent } from './pages/common/modal/modal.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    FullComponent,
-    BlankComponent,
-    SidebarComponent,
-    HeaderComponent,
-    BrandingComponent,
-    AppNavItemComponent,
-    PagenotfoundComponent,
-    ConfirmDialogComponent,
-    ModalComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    TablerIconsModule.pick(TablerIcons),
-  ],
-  exports: [TablerIconsModule],
-  bootstrap: [AppComponent],
-  providers: [
-    { provide: APP_BASE_HREF, useValue: '/' },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true, }
-  ]
-
-})
+@NgModule({ declarations: [
+        AppComponent,
+        FullComponent,
+        BlankComponent,
+        SidebarComponent,
+        HeaderComponent,
+        BrandingComponent,
+        AppNavItemComponent,
+        PagenotfoundComponent,
+        ConfirmDialogComponent,
+        ModalComponent
+    ],
+    exports: [TablerIconsModule],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        TablerIconsModule.pick(TablerIcons)], providers: [
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true, },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
