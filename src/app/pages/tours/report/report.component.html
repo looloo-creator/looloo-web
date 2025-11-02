@@ -88,13 +88,33 @@
                             </td>
                         </ng-container>
 
-                        <!-- Amount Column -->
-                        <ng-container matColumnDef="amount">
+                        <!-- Credit Column -->
+                        <ng-container matColumnDef="credit">
                             <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Amount
+                                Credit
                             </th>
                             <td mat-cell *matCellDef="let element">
-                                {{ element.amount }}
+                                {{ element.credit }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Debit Column -->
+                        <ng-container matColumnDef="debit">
+                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                                Debit
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.debit }}
+                            </td>
+                        </ng-container>
+
+                        <!-- Balance Column -->
+                        <ng-container matColumnDef="balance">
+                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                                Balance
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.balance }}
                             </td>
                         </ng-container>
 
@@ -207,27 +227,37 @@
                                 Desc
                             </th>
                             <td mat-cell *matCellDef="let element">
-                                {{ element.description | titlecase }}
+                                {{ element.description | titlecase }}  &nbsp;&nbsp;(&nbsp;{{ element.amount }}&nbsp;)
                             </td>
                         </ng-container>
 
-                        <!-- Amount Column -->
-                        <ng-container matColumnDef="amount">
+                        <!-- Credit Column -->
+                        <ng-container matColumnDef="credit">
                             <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Amount
+                                Share Credit
                             </th>
                             <td mat-cell *matCellDef="let element">
-                                {{ element.amount }}
+                                {{ element.credit }}
+                            </td>
+                        </ng-container>
+                        
+                        <!-- Debit Column -->
+                        <ng-container matColumnDef="debit">
+                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                                Share Debit
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.debit }}
                             </td>
                         </ng-container>
 
-                        <!-- Amount Column -->
-                        <ng-container matColumnDef="share">
+                        <!-- Balance Column -->
+                        <ng-container matColumnDef="balance">
                             <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Share Amount
+                                Balance
                             </th>
                             <td mat-cell *matCellDef="let element">
-                                {{ element.share_amount }}
+                                {{ element.balance }}
                             </td>
                         </ng-container>
 

@@ -1,20 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { CommonService } from '../services/common.service';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard {
-
-  constructor(private commonService: CommonService, private authService: AuthService) {
-
-  }
-  async canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot) {
+  constructor(private authService: AuthService) {}
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const authToken = this.authService.getToken();
     if (this.authService.isLoggedIn() && authToken) {
       return true;
@@ -27,11 +20,9 @@ export class AuthGuard {
           return false;
         }
       } else {
-        this.commonService.redirect('/authentication/login');
+        this.authService.logout();
         return false;
       }
     }
-
   }
-
 }
