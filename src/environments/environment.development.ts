@@ -1,3 +1,3 @@
 export const environment = {
-    apiDomain: "https://rajashekarkalisamy.ddns.net/api/"
+    apiDomain: "http://localhost:30000/"
 };
