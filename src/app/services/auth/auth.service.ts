@@ -51,10 +51,22 @@ export class AuthService {
     });
   };
 
-  logout(): void {
+  verifyEmail = (token: string) => {
+    return this.commonService.request(`users/verifyemail/${token}`, 'GET');
+  };
+
+  resendVerificationEmail = (email: string) => {
+    return this.commonService.request(`users/send-verification-link`, 'POST', {
+      email: email,
+    });
+  };
+
+  logout(redirect = true): void {
     this.setLoggedIn(false);
     localStorage.removeItem('auth_token');
-    this.commonService.redirect('/authentication/login');
+    if (redirect) {
+      this.commonService.redirect('/authentication/login');
+    }
   }
 
   isLoggedIn(): boolean {

@@ -14,7 +14,9 @@ export class EmailVerificationComponent implements OnInit {
   resendForm!: FormGroup;
   resendSubmitted = false;
   isLoading = true;
-
+  errormessage = '';
+  loaderMessage = 'Verifying your email...';
+  successMessage = 'Email Verified Successfully';
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
@@ -23,12 +25,19 @@ export class EmailVerificationComponent implements OnInit {
 
   ngOnInit() {
     const token = this.route.snapshot.queryParamMap.get('token');
-
     if (token) {
-      //   this.authService.verifyEmail(token).subscribe({
-      //     next: () => (this.isVerified = true),
-      //     error: () => (this.isVerified = false),
-      //   });
+      this.authService
+        .verifyEmail(token)
+        .then((response) => {
+          this.successMessage = 'Email Verified Successfully';
+          this.isVerified = true;
+          this.isLoading = false;
+        })
+        .catch((error) => {
+          this.isVerified = false;
+          this.isLoading = false;
+          this.errormessage = 'Your verification link is invalid or expired.';
+        });
     }
 
     this.resendForm = this.fb.group({
@@ -40,11 +49,24 @@ export class EmailVerificationComponent implements OnInit {
     this.resendSubmitted = true;
     if (this.resendForm.invalid) return;
 
-    // this.authService
-    //   .resendVerificationEmail(this.resendForm.value.email)
-    //   .subscribe({
-    //     next: () => alert('Verification email sent successfully'),
-    //     error: () => alert('Failed to resend email'),
-    //   });
+    this.isLoading = true;
+    this.loaderMessage = 'Sending Verification Link...';
+    this.authService
+      .resendVerificationEmail(this.resendForm.value.email)
+      .then((response) => {
+        this.successMessage = 'Verification Link Sent.';
+        this.isVerified = true;
+        this.isLoading = false;
+      })
+      .catch((error) => {
+        this.isVerified = false;
+        this.isLoading = false;
+        this.errormessage = 'Failed to sent.';
+        if (error.status === 409) {
+          this.isVerified = true;
+          this.isLoading = false;
+          this.successMessage = 'Email already verified';
+        }
+      });
   }
 }
