@@ -20,6 +20,10 @@ export const AuthenticationRoutes: Routes = [
         path: 'verify',
         component: EmailVerificationComponent,
       },
+      {
+        path: 'verify/:token',
+        component: EmailVerificationComponent,
+      },
     ],
   },
 ];
