@@ -73,7 +73,7 @@
               "buildTarget": "OnepayAdmin:build:development"
             }
           },
-          "options":{
+          "options": {
             "disableHostCheck": true
           },
           "defaultConfiguration": "development"
