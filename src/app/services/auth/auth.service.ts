@@ -69,6 +69,18 @@ export class AuthService {
     }
   }
 
+  socialLogin(idToken: string) {
+    return this.commonService
+      .request('users/social-login', 'POST', { provider: 'google', idToken })
+      .then((response: any) => {
+        if (response.success && response.data?.jwt) {
+          localStorage.setItem('auth_token', response.data.jwt);
+          window.location.reload();
+        }
+      })
+      .catch((error) => {});
+  }
+
   isLoggedIn(): boolean {
     return this.loggedIn;
   }

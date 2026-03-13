@@ -73,9 +73,7 @@
               "browserTarget": "OnepayAdmin:build:development"
             }
           },
-          "options":{
-            "disableHostCheck": true
-          },
+          "options": {},
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
