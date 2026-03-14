@@ -1,3 +1,5 @@
+@use "../variables" as *;
+
 html .topbar {
   background-color: $toolbar;
   position: sticky;

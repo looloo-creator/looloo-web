@@ -1,60 +1,68 @@
 <div class="blank-layout-container justify-content-center align-items-center bg-light-primary">
-    <div class="position-relative row w-100 h-100 bg-gredient justify-content-center">
-        <div class="col-lg-4 d-flex align-items-center">
-            <mat-card class="cardWithShadow boxed-auth">
-                <mat-card-content class="p-32">
+  <div class="position-relative row w-100 h-100 bg-gredient justify-content-center">
+    <div class="col-lg-4 d-flex align-items-center">
+      <mat-card class="cardWithShadow boxed-auth">
+        <mat-card-content class="p-32">
 
-                    <div class="text-center">
-                        <img src="./assets/images/logos/loo-loo.png" style="width: 220px;" class="m-2" alt="logo" />
-                    </div>
+          <div class="text-center">
+            <img src="./assets/images/logos/loo-loo.png" style="width: 220px;" class="m-2" alt="logo" />
+          </div>
 
-                    <!-- ⏳ LOADING Section -->
-                    <div *ngIf="isLoading" class="text-center m-t-40 verify-email-progress">
-                        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-                        <p class="m-t-16 text-secondary">{{loaderMessage}}</p>
-                    </div>
+          <!-- ⏳ LOADING Section -->
+          @if (isLoading) {
+            <div class="text-center m-t-40 verify-email-progress">
+              <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+              <p class="m-t-16 text-secondary">{{loaderMessage}}</p>
+            </div>
+          }
 
-                    <!-- ✅ SUCCESS Section -->
-                    <div *ngIf="!isLoading && isVerified" class="text-center m-t-30">
-                        <mat-icon color="primary" style="font-size: 70px;">check_circle</mat-icon>
-                        <h3 class="m-t-16">{{successMessage}}</h3>
-                        <p *ngIf="successMessage=='Email Verified Successfully' || successMessage=='Email already verified'"
-                            class="text-secondary">You can now
-                            sign in to your account.</p>
+          <!-- ✅ SUCCESS Section -->
+          @if (!isLoading && isVerified) {
+            <div class="text-center m-t-30">
+              <mat-icon color="primary" style="font-size: 70px;">check_circle</mat-icon>
+              <h3 class="m-t-16">{{successMessage}}</h3>
+              @if (successMessage=='Email Verified Successfully' || successMessage=='Email already verified') {
+                <p
+                  class="text-secondary">You can now
+                sign in to your account.</p>
+              }
+              @if (successMessage=='Email Verified Successfully' || successMessage=='Email already verified') {
+                <button
+                  mat-flat-button color="primary" class="w-100 m-t-16"
+                  [routerLink]="['/authentication/login']">
+                  Go to Login
+                </button>
+              }
+            </div>
+          }
 
-                        <button
-                            *ngIf="successMessage=='Email Verified Successfully' || successMessage=='Email already verified'"
-                            mat-flat-button color="primary" class="w-100 m-t-16"
-                            [routerLink]="['/authentication/login']">
-                            Go to Login
-                        </button>
-                    </div>
+          @if (!isLoading && !isVerified) {
+            <div class="m-t-30 text-center">
+              <mat-icon color="warn" style="font-size: 70px;">error</mat-icon>
+              <h3 class="m-t-16">Verification Failed</h3>
+              <p class="text-secondary error">
+                {{errormessage}}
+              </p>
+              <!-- Resend Form -->
+              <form [formGroup]="resendForm" (ngSubmit)="resendEmail()">
+                <mat-form-field appearance="outline" class="w-100 m-t-16">
+                  <mat-label>Email</mat-label>
+                  <input matInput type="email" formControlName="email" />
+                  @if (resendForm.get('email')?.invalid && resendSubmitted) {
+                    <mat-error class="error">
+                      Please enter a valid email address
+                    </mat-error>
+                  }
+                </mat-form-field>
+                <button mat-flat-button color="primary" class="w-100 m-t-8" type="submit">
+                  Resend Verification Email
+                </button>
+              </form>
+            </div>
+          }
 
-                    <div *ngIf="!isLoading && !isVerified" class="m-t-30 text-center">
-                        <mat-icon color="warn" style="font-size: 70px;">error</mat-icon>
-                        <h3 class="m-t-16">Verification Failed</h3>
-                        <p class="text-secondary error">
-                            {{errormessage}}
-                        </p>
-
-                        <!-- Resend Form -->
-                        <form [formGroup]="resendForm" (ngSubmit)="resendEmail()">
-                            <mat-form-field appearance="outline" class="w-100 m-t-16">
-                                <mat-label>Email</mat-label>
-                                <input matInput type="email" formControlName="email" />
-                                <mat-error class="error" *ngIf="resendForm.get('email')?.invalid && resendSubmitted">
-                                    Please enter a valid email address
-                                </mat-error>
-                            </mat-form-field>
-
-                            <button mat-flat-button color="primary" class="w-100 m-t-8" type="submit">
-                                Resend Verification Email
-                            </button>
-                        </form>
-                    </div>
-
-                </mat-card-content>
-            </mat-card>
-        </div>
+        </mat-card-content>
+      </mat-card>
     </div>
+  </div>
 </div>

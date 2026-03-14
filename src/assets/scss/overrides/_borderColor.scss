@@ -1,3 +1,5 @@
+@use "../variables" as *;
+
 // theme
 .mat-drawer-side {
   border-right: 1px solid $borderColor;

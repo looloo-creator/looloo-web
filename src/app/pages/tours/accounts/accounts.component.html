@@ -1,168 +1,192 @@
 <div class="row">
-    <div class="col-lg-12">
-        <form [formGroup]="accountsForm" (ngSubmit)="addDetail()">
-            <mat-card class="cardWithShadow">
-                <mat-card-header>
-                    <div class="col-md-12 p-24">
-                        <mat-card-title>{{tourName}}
-                            <button *ngIf="memberId" mat-fab extended class="float-right m-l-20"
-                                [routerLink]="['/tours/addmember']" [queryParams]="{tour_id:tourId}">
-                                <mat-icon>close</mat-icon>
-                                Close
-                            </button>
-                            <button *ngIf="!memberId" mat-fab extended class="float-right m-l-20"
-                                [routerLink]="['/tours/list']" [queryParams]="{tour_id:tourId}">
-                                <mat-icon>close</mat-icon>
-                                Close
-                            </button>
-                            <button type="button" mat-fab extended class="float-right m-b-20 m-l-20"
-                                [routerLink]="'/tours/report'" [queryParams]="{tour_id: tourId, member_id: memberId}">
-                                <mat-icon>account_balance</mat-icon>
-                                Statement
-                            </button>
-                            <button type="submit" mat-fab extended class="float-right m-b-20">
-                                <mat-icon>upload</mat-icon> Save
-                            </button>
-                        </mat-card-title>
+  <div class="col-lg-12">
+    <form [formGroup]="accountsForm" (ngSubmit)="addDetail()">
+      <mat-card class="cardWithShadow">
+        <mat-card-header>
+          <div class="col-md-12 p-24">
+            <mat-card-title>{{tourName}}
+              @if (memberId) {
+                <button mat-fab extended class="float-right m-l-20"
+                  [routerLink]="['/tours/addmember']" [queryParams]="{tour_id:tourId}">
+                  <mat-icon>close</mat-icon>
+                  Close
+                </button>
+              }
+              @if (!memberId) {
+                <button mat-fab extended class="float-right m-l-20"
+                  [routerLink]="['/tours/list']" [queryParams]="{tour_id:tourId}">
+                  <mat-icon>close</mat-icon>
+                  Close
+                </button>
+              }
+              <button type="button" mat-fab extended class="float-right m-b-20 m-l-20"
+                [routerLink]="'/tours/report'" [queryParams]="{tour_id: tourId, member_id: memberId}">
+                <mat-icon>account_balance</mat-icon>
+                Statement
+              </button>
+              <button type="submit" mat-fab extended class="float-right m-b-20">
+                <mat-icon>upload</mat-icon> Save
+              </button>
+            </mat-card-title>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="col-md-12 d-flex">
+            <div class="col-md-4">
+              <div class="input_group">
+                <mat-radio-group aria-label="Select an option" formControlName="type"
+                  (change)="transactionTypeChange()">
+                  <mat-radio-button value="collection">Collection</mat-radio-button>
+                  <mat-radio-button value="expenditure">Expenditure</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+          </div>
+          @if (tourId) {
+            <div>
+              <div>
+                <div class="col-md-12 p-24">
+                  <mat-card-title> {{ af.type.value == 'collection' ? 'Collection': 'Expenditure'
+                  }}</mat-card-title>
+                </div>
+                <div class="col-md-12">
+                  <div class="row m-l-0 m-r-0">
+                    <div class="col-md-4 m-b-10">
+                      <div class="input_group">
+                        <mat-form-field appearance="outline" class="w-100" color="primary">
+                          <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
+                          Date</mat-label>
+                          <input matInput [matDatepicker]="picker" (click)="picker.open()"
+                            formControlName="date" readonly>
+                          <mat-datepicker-toggle matIconSuffix
+                          [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                          @if (af.date.errors?.['required'] && (accountsFormSubmitted)) {
+                            <mat-error class="error"
+                              >
+                              Date Can't be empty
+                            </mat-error>
+                          }
+                        </mat-form-field>
+                      </div>
                     </div>
-                </mat-card-header>
-                <mat-card-content>
-                    <div class="col-md-12 d-flex">
-                        <div class="col-md-4">
-                            <div class="input_group">
-                                <mat-radio-group aria-label="Select an option" formControlName="type"
-                                    (change)="transactionTypeChange()">
-                                    <mat-radio-button value="collection">Collection</mat-radio-button>
-                                    <mat-radio-button value="expenditure">Expenditure</mat-radio-button>
-                                </mat-radio-group>
-                            </div>
+                    @if (af.type.value == 'collection') {
+                      <div class="col-md-4 m-b-10">
+                        <div class="input_group">
+                          <mat-form-field appearance="outline" class="w-100" color="primary">
+                            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
+                              Collected
+                            From</mat-label>
+                            <mat-select formControlName="collected_from"
+                              (selectionChange)="selectMember($event.value, true)">
+                              @for (member of members; track member) {
+                                <mat-option [value]="member._id">
+                                  {{member.name}}
+                                </mat-option>
+                              }
+                            </mat-select>
+                            @if (af.collected_from.errors?.['required'] && (accountsFormSubmitted)) {
+                              <mat-error class="error"
+                                >
+                                Choose the Member
+                              </mat-error>
+                            }
+                          </mat-form-field>
                         </div>
+                      </div>
+                    }
+                    <div class="col-md-4 m-b-10">
+                      <div class="input_group">
+                        <mat-form-field appearance="outline" class="w-100" color="primary">
+                          <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">{{
+                            af.type.value == 'collection' ? 'Collection': 'Expense'
+                            }}
+                          Amount</mat-label>
+                          <input matInput type="number" formControlName="amount" maxlength="25" />
+                          @if (af.amount.errors?.['required'] && (accountsFormSubmitted)) {
+                            <mat-error class="error"
+                              >
+                              Amount can't be empty
+                            </mat-error>
+                          }
+                        </mat-form-field>
+                      </div>
                     </div>
-                    <div *ngIf="tourId">
-                        <div>
-                            <div class="col-md-12 p-24">
-                                <mat-card-title> {{ af.type.value == 'collection' ? 'Collection': 'Expenditure'
-                                    }}</mat-card-title>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="row m-l-0 m-r-0">
-                                    <div class="col-md-4 m-b-10">
-                                        <div class="input_group">
-                                            <mat-form-field appearance="outline" class="w-100" color="primary">
-                                                <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
-                                                    Date</mat-label>
-                                                <input matInput [matDatepicker]="picker" (click)="picker.open()"
-                                                    formControlName="date" readonly>
-                                                <mat-datepicker-toggle matIconSuffix
-                                                    [for]="picker"></mat-datepicker-toggle>
-                                                <mat-datepicker #picker></mat-datepicker>
-                                                <mat-error class="error"
-                                                    *ngIf="af.date.errors?.['required'] && (accountsFormSubmitted)">
-                                                    Date Can't be empty
-                                                </mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 m-b-10" *ngIf="af.type.value == 'collection'">
-                                        <div class="input_group">
-                                            <mat-form-field appearance="outline" class="w-100" color="primary">
-                                                <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">
-                                                    Collected
-                                                    From</mat-label>
-                                                <mat-select formControlName="collected_from"
-                                                    (selectionChange)="selectMember($event.value, true)">
-                                                    <mat-option *ngFor="let member of members" [value]="member._id">
-                                                        {{member.name}}
-                                                    </mat-option>
-                                                </mat-select>
-                                                <mat-error class="error"
-                                                    *ngIf="af.collected_from.errors?.['required'] && (accountsFormSubmitted)">
-                                                    Choose the Member
-                                                </mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 m-b-10">
-                                        <div class="input_group">
-                                            <mat-form-field appearance="outline" class="w-100" color="primary">
-                                                <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">{{
-                                                    af.type.value == 'collection' ? 'Collection': 'Expense'
-                                                    }}
-                                                    Amount</mat-label>
-                                                <input matInput type="number" formControlName="amount" maxlength="25" />
-                                                <mat-error class="error"
-                                                    *ngIf="af.amount.errors?.['required'] && (accountsFormSubmitted)">
-                                                    Amount can't be empty
-                                                </mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 m-b-10">
-                                        <div class="input_group">
-                                            <mat-form-field appearance="outline" class="w-100" color="primary">
-                                                <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">{{
-                                                    af.type.value == 'collection' ? 'Collected': 'Spent'
-                                                    }}
-                                                    For</mat-label>
-                                                <input matInput type="text" formControlName="reason" maxlength="255" />
-                                                <mat-error class="error"
-                                                    *ngIf="af.reason.errors?.['required'] && (accountsFormSubmitted)">
-                                                    Reason can't be empty
-                                                </mat-error>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 m-b-10 p-t-8">
-                                        <div class="upload_btn">
-                                            <button mat-mini-fab color="primary" type="button" class="upload-btn"
-                                                (click)="fileUpload.click()">
-                                                <mat-icon>attach_file</mat-icon></button>
-                                            <input type="file" class="d-none" (change)="fileSelect($event)" #fileUpload>
-                                            <span class="p-l-10" (click)="preview()"
-                                                [ngStyle]="selectedFileName ? {'cursor': 'pointer', 'color': 'blue', 'text-decoration': 'underline'} : {}">{{
-                                                selectedFileName || "No file uploaded
-                                                yet."}}</span><mat-icon *ngIf="selectedFileName" style="color: gray; padding-left: 2px; cursor: pointer;" (click)="removefile()">highlight_off</mat-icon>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 p-24">
-                            <mat-card-title> Split {{ (af.type.value == 'collection' ? 'Collection': 'Expense'
-                                )}}</mat-card-title>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <mat-checkbox (change)="selectAll($event.checked)" [checked]="isAllSelected">
-                                        <span class="f-w-600">All Members</span>
-                                    </mat-checkbox>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-3" *ngFor="let member of members">
-                                    <mat-checkbox [value]="member._id" [checked]="member.checked"
-                                        (change)="selectMember($event.source.value, $event.checked)">
-                                        <span class="f-w-500"><i> {{member.name | titlecase}}</i></span>
-                                    </mat-checkbox>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row m-r-0 m-l-0">
-                                <div class="col-md-12 m-auto">
-                                    <mat-error class="error"
-                                        *ngIf="selectedMembers.length === 0  && (accountsFormSubmitted)">
-                                        Atleast one member should be selected
-                                    </mat-error>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-4 m-b-10">
+                      <div class="input_group">
+                        <mat-form-field appearance="outline" class="w-100" color="primary">
+                          <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">{{
+                            af.type.value == 'collection' ? 'Collected': 'Spent'
+                            }}
+                          For</mat-label>
+                          <input matInput type="text" formControlName="reason" maxlength="255" />
+                          @if (af.reason.errors?.['required'] && (accountsFormSubmitted)) {
+                            <mat-error class="error"
+                              >
+                              Reason can't be empty
+                            </mat-error>
+                          }
+                        </mat-form-field>
+                      </div>
                     </div>
-                </mat-card-content>
-            </mat-card>
-        </form>
-    </div>
+                    <div class="col-md-4 m-b-10 p-t-8">
+                      <div class="upload_btn">
+                        <button mat-mini-fab color="primary" type="button" class="upload-btn"
+                          (click)="fileUpload.click()">
+                          <mat-icon>attach_file</mat-icon></button>
+                          <input type="file" class="d-none" (change)="fileSelect($event)" #fileUpload>
+                          <span class="p-l-10" (click)="preview()"
+                            [ngStyle]="selectedFileName ? {'cursor': 'pointer', 'color': 'blue', 'text-decoration': 'underline'} : {}">{{
+                            selectedFileName || "No file uploaded
+                          yet."}}</span>@if (selectedFileName) {
+                          <mat-icon style="color: gray; padding-left: 2px; cursor: pointer;" (click)="removefile()">highlight_off</mat-icon>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 p-24">
+                <mat-card-title> Split {{ (af.type.value == 'collection' ? 'Collection': 'Expense'
+                )}}</mat-card-title>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-checkbox (change)="selectAll($event.checked)" [checked]="isAllSelected">
+                      <span class="f-w-600">All Members</span>
+                    </mat-checkbox>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  @for (member of members; track member) {
+                    <div class="col-md-3">
+                      <mat-checkbox [value]="member._id" [checked]="member.checked"
+                        (change)="selectMember($event.source.value, $event.checked)">
+                        <span class="f-w-500"><i> {{member.name | titlecase}}</i></span>
+                      </mat-checkbox>
+                    </div>
+                  }
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row m-r-0 m-l-0">
+                  <div class="col-md-12 m-auto">
+                    @if (selectedMembers.length === 0  && (accountsFormSubmitted)) {
+                      <mat-error class="error"
+                        >
+                        Atleast one member should be selected
+                      </mat-error>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </div>
 </div>

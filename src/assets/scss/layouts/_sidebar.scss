@@ -1,3 +1,5 @@
+@use "../variables" as *;
+
 .sidebarNav {
   width: $sidenav-desktop;
   flex-shrink: 0;

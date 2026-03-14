@@ -1,4 +1,5 @@
 @use "sass:meta";
+@use "../variables" as *;
 
 @mixin syntax-colors($args...) {
   @each $name, $color in meta.keywords($args) {
