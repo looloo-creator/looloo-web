@@ -22,19 +22,12 @@
     "@angular/router": "^21.2.4",
     "@azure/msal-browser": "^4.29.1",
     "@material/dialog": "^15.0.0-canary.684e33d25.0",
-<<<<<<< HEAD
     "angular-tabler-icons": "3.26.0",
-=======
-    "angular-tabler-icons": "^3.26.0",
->>>>>>> b323d14 (application upgrade to angular v21)
     "apexcharts": "^3.35.3",
     "ng-apexcharts": "1.7.1",
     "rxjs": "~7.8.2",
     "sass": "^1.57.1",
-<<<<<<< HEAD
-=======
     "tslib": "^2.3.0",
->>>>>>> b323d14 (application upgrade to angular v21)
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
@@ -50,10 +43,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
-<<<<<<< HEAD
-    "tslib": "^2.3.0",
-=======
->>>>>>> b323d14 (application upgrade to angular v21)
     "typescript": "~5.9.3"
   }
 }
