@@ -1,286 +1,276 @@
-<div class="row" *ngIf="!memberId">
+@if (!memberId) {
+  <div class="row">
     <div class="col-lg-12">
-        <mat-card class="cardWithShadow">
-            <mat-card-header>
-                <div class="row w-100">
-                    <div class="col-md-12 p-24">
-                        <mat-card-title>
-                            <button mat-fab extended class="float-right m-l-20" [routerLink]="['/tours/list']"
-                                [queryParams]="{tour_id:tourId}">
-                                <mat-icon>close</mat-icon>
-                                Close
-                            </button>
-                            <button mat-fab extended class="float-right" [routerLink]="['/tours/accounts']"
-                                [queryParams]="{tour_id:tourId}">
-                                <mat-icon>add</mat-icon>
-                                Add Transaction
-                            </button>
-                        </mat-card-title>
-
+      <mat-card class="cardWithShadow">
+        <mat-card-header>
+          <div class="row w-100">
+            <div class="col-md-12 p-24">
+              <mat-card-title>
+                <button mat-fab extended class="float-right m-l-20" [routerLink]="['/tours/list']"
+                  [queryParams]="{tour_id:tourId}">
+                  <mat-icon>close</mat-icon>
+                  Close
+                </button>
+                <button mat-fab extended class="float-right" [routerLink]="['/tours/accounts']"
+                  [queryParams]="{tour_id:tourId}">
+                  <mat-icon>add</mat-icon>
+                  Add Transaction
+                </button>
+              </mat-card-title>
+            </div>
+            <div class=" col-md-12 p-24">
+              <mat-card-title class="d-flex justify-content-between m-b-15">
+                <span>{{tourName}}</span>
+                <span>Collection: &#x20B9; <span>{{collection | number : '1.0-2'}}</span></span>
+              </mat-card-title>
+              <mat-card-title class="d-flex justify-content-between">
+                <span>Balance: &#x20B9; <span>{{(collection - expenditure) | number : '1.0-2'}}</span></span>
+                <span>Expenditure: &#x20B9; <span>{{expenditure | number : '1.0-2'}}</span></span>
+              </mat-card-title>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <!-- <mat-card-title>Tours</mat-card-title> -->
+          <div class="table-responsive">
+            <table mat-table [dataSource]="transactions" class="w-100">
+              <!-- Position Column -->
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  S.No
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="d-flex align-items-center">
+                    <div class="m-l-16">
+                      {{ element.position }}
                     </div>
-                    <div class=" col-md-12 p-24">
-                        <mat-card-title class="d-flex justify-content-between m-b-15">
-                            <span>{{tourName}}</span>
-                            <span>Collection: &#x20B9; <span>{{collection | number : '1.0-2'}}</span></span>
-                        </mat-card-title>
-                        <mat-card-title class="d-flex justify-content-between">
-                            <span>Balance: &#x20B9; <span>{{(collection - expenditure) | number : '1.0-2'}}</span></span>
-                            <span>Expenditure: &#x20B9; <span>{{expenditure | number : '1.0-2'}}</span></span>
-                        </mat-card-title>
-                    </div>
-                </div>
-            </mat-card-header>
-            <mat-card-content>
-                <!-- <mat-card-title>Tours</mat-card-title> -->
-                <div class="table-responsive">
-                    <table mat-table [dataSource]="transactions" class="w-100">
-                        <!-- Position Column -->
-                        <ng-container matColumnDef="position">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                S.No
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                <div class="d-flex align-items-center">
-                                    <div class="m-l-16">
-                                        {{ element.position }}
-                                    </div>
-                                </div>
-                            </td>
-                        </ng-container>
-
-                        <!-- Date Column -->
-                        <ng-container matColumnDef="date">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Date
-                            </th>
-                            <td mat-cell *matCellDef="let element" class="mat-body-1">
-                                {{ element.date | date:'shortDate' }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Name Column -->
-                        <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Name
-                            </th>
-                            <td mat-cell *matCellDef="let element" class="mat-body-1">
-                                {{ element.name }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Shares Column -->
-                        <ng-container matColumnDef="shares">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Shares
-                            </th>
-                            <td mat-cell *matCellDef="let element" class="mat-body-1">
-                                {{ element.shares }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Description Column -->
-                        <ng-container matColumnDef="description">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Desc
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.description | titlecase }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Credit Column -->
-                        <ng-container matColumnDef="credit">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Credit
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.credit }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Debit Column -->
-                        <ng-container matColumnDef="debit">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Debit
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.debit }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Balance Column -->
-                        <ng-container matColumnDef="balance">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Balance
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.balance }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Symbol Column -->
-                        <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                <span class="m-l-16">Action</span>
-                            </th>
-                            <td mat-cell *matCellDef="let element" class="mat-body-1">
-                                <mat-icon class="m-l-16 cursor-pointer" title="Edit" [routerLink]="['/tours/accounts']"
-                                    [queryParams]="{tour_id:element.tour_id ,transaction_id: element.account_id}">edit</mat-icon>
-                                <mat-icon class="m-l-16 cursor-pointer" title="Delete"
-                                    (click)="deleteTransaction(element.tour_id, element.account_id)">delete</mat-icon>
-                            </td>
-                        </ng-container>
-
-                        <tr mat-header-row *matHeaderRowDef="transactionColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: transactionColumns"></tr>
-                    </table>
-                    <div class="w-100 d-flex justify-content-center" *ngIf="transactions.length === 0">No records found
-                    </div>
-                </div>
-            </mat-card-content>
-        </mat-card>
+                  </div>
+                </td>
+              </ng-container>
+              <!-- Date Column -->
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Date
+                </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1">
+                  {{ element.date | date:'shortDate' }}
+                </td>
+              </ng-container>
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Name
+                </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1">
+                  {{ element.name }}
+                </td>
+              </ng-container>
+              <!-- Shares Column -->
+              <ng-container matColumnDef="shares">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Shares
+                </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1">
+                  {{ element.shares }}
+                </td>
+              </ng-container>
+              <!-- Description Column -->
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Desc
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.description | titlecase }}
+                </td>
+              </ng-container>
+              <!-- Credit Column -->
+              <ng-container matColumnDef="credit">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Credit
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.credit }}
+                </td>
+              </ng-container>
+              <!-- Debit Column -->
+              <ng-container matColumnDef="debit">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Debit
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.debit }}
+                </td>
+              </ng-container>
+              <!-- Balance Column -->
+              <ng-container matColumnDef="balance">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Balance
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.balance }}
+                </td>
+              </ng-container>
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  <span class="m-l-16">Action</span>
+                </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1">
+                  <mat-icon class="m-l-16 cursor-pointer" title="Edit" [routerLink]="['/tours/accounts']"
+                  [queryParams]="{tour_id:element.tour_id ,transaction_id: element.account_id}">edit</mat-icon>
+                  <mat-icon class="m-l-16 cursor-pointer" title="Delete"
+                  (click)="deleteTransaction(element.tour_id, element.account_id)">delete</mat-icon>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="transactionColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: transactionColumns"></tr>
+            </table>
+            @if (transactions.length === 0) {
+              <div class="w-100 d-flex justify-content-center">No records found
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-</div>
+  </div>
+}
 
-<div class="row" *ngIf="memberId">
+@if (memberId) {
+  <div class="row">
     <div class="col-lg-12">
-        <mat-card class="cardWithShadow">
-            <mat-card-header>
-                <div class="row w-100">
-                    <div class="col-md-12 p-24">
-                        <mat-card-title>
-                            <button mat-fab extended class="float-right" [routerLink]="['/tours/addmember']"
-                                [queryParams]="{tour_id:tourId}">
-                                <mat-icon>close</mat-icon>
-                                Close
-                            </button>
-                        </mat-card-title>
-
+      <mat-card class="cardWithShadow">
+        <mat-card-header>
+          <div class="row w-100">
+            <div class="col-md-12 p-24">
+              <mat-card-title>
+                <button mat-fab extended class="float-right" [routerLink]="['/tours/addmember']"
+                  [queryParams]="{tour_id:tourId}">
+                  <mat-icon>close</mat-icon>
+                  Close
+                </button>
+              </mat-card-title>
+            </div>
+            <div class=" col-md-12 p-24">
+              <mat-card-title class="d-flex justify-content-between m-b-15">
+                <span>{{tourName}}</span>
+                <span>Collection: &#x20B9; <span>{{collection | number : '1.0-2'}}</span></span>
+              </mat-card-title>
+              <mat-card-title class="d-flex justify-content-between m-b-15">
+                <span>Member: <span>{{memberName}}</span></span>
+                <span>Expenditure: &#x20B9; <span>{{expenditure | number : '1.0-2'}}</span></span>
+              </mat-card-title>
+              <mat-card-title class="d-flex justify-content-between">
+                <span></span>
+                <span>Balance: &#x20B9; <span>{{(collection - expenditure) | number : '1.0-2'}}</span></span>
+              </mat-card-title>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <!-- <mat-card-title>Tours</mat-card-title> -->
+          <div class="table-responsive">
+            <table mat-table [dataSource]="transactions" class="w-100">
+              <!-- Position Column -->
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  S.No
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="d-flex align-items-center">
+                    <div class="m-l-16">
+                      {{ element.position }}
                     </div>
-                    <div class=" col-md-12 p-24">
-                        <mat-card-title class="d-flex justify-content-between m-b-15">
-                            <span>{{tourName}}</span>
-                            <span>Collection: &#x20B9; <span>{{collection | number : '1.0-2'}}</span></span>
-                        </mat-card-title>
-                        <mat-card-title class="d-flex justify-content-between m-b-15">
-                            <span>Member: <span>{{memberName}}</span></span>
-                            <span>Expenditure: &#x20B9; <span>{{expenditure | number : '1.0-2'}}</span></span>
-                        </mat-card-title>
-                        <mat-card-title class="d-flex justify-content-between">
-                            <span></span>
-                            <span>Balance: &#x20B9; <span>{{(collection - expenditure) | number : '1.0-2'}}</span></span>
-                        </mat-card-title>
-                    </div>
-                </div>
-            </mat-card-header>
-            <mat-card-content>
-                <!-- <mat-card-title>Tours</mat-card-title> -->
-                <div class="table-responsive">
-                    <table mat-table [dataSource]="transactions" class="w-100">
-                        <!-- Position Column -->
-                        <ng-container matColumnDef="position">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                S.No
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                <div class="d-flex align-items-center">
-                                    <div class="m-l-16">
-                                        {{ element.position }}
-                                    </div>
-                                </div>
-                            </td>
-                        </ng-container>
-
-                        <!-- Date Column -->
-                        <ng-container matColumnDef="date">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Date
-                            </th>
-                            <td mat-cell *matCellDef="let element" class="mat-body-1">
-                                {{ element.date | date:'shortDate' }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Name Column -->
-                        <ng-container matColumnDef="name">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Name
-                            </th>
-                            <td mat-cell *matCellDef="let element" class="mat-body-1">
-                                {{ element.name }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Shares Column -->
-                        <ng-container matColumnDef="shares">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Shares
-                            </th>
-                            <td mat-cell *matCellDef="let element" class="mat-body-1">
-                                {{ element.shares }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Description Column -->
-                        <ng-container matColumnDef="description">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Desc
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.description | titlecase }}  &nbsp;&nbsp;(&nbsp;{{ element.amount }}&nbsp;)
-                            </td>
-                        </ng-container>
-
-                        <!-- Credit Column -->
-                        <ng-container matColumnDef="credit">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Share Credit
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.credit }}
-                            </td>
-                        </ng-container>
-                        
-                        <!-- Debit Column -->
-                        <ng-container matColumnDef="debit">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Share Debit
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.debit }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Balance Column -->
-                        <ng-container matColumnDef="balance">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                Balance
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                {{ element.balance }}
-                            </td>
-                        </ng-container>
-
-                        <!-- Symbol Column -->
-                        <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
-                                <span class="m-l-16">Action</span>
-                            </th>
-                            <td mat-cell *matCellDef="let element" class="mat-body-1">
-                                <mat-icon class="m-l-16 cursor-pointer" title="Edit" [routerLink]="['/tours/accounts']"
-                                    [queryParams]="{tour_id:element.tour_id ,transaction_id: element.account_id, member_id: memberId}">edit</mat-icon>
-                                <mat-icon *ngIf="element.amount === element.share_amount" class="m-l-16 cursor-pointer" title="Delete"
-                                    (click)="deleteTransaction(element.tour_id, element.account_id)">delete{{element.members }}</mat-icon>
-                            </td>
-                        </ng-container>
-
-                        <tr mat-header-row *matHeaderRowDef="memberTransactionColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: memberTransactionColumns"></tr>
-                    </table>
-                    <div class="w-100 d-flex justify-content-center" *ngIf="transactions.length === 0">No records found
-                    </div>
-                </div>
-            </mat-card-content>
-        </mat-card>
+                  </div>
+                </td>
+              </ng-container>
+              <!-- Date Column -->
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Date
+                </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1">
+                  {{ element.date | date:'shortDate' }}
+                </td>
+              </ng-container>
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Name
+                </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1">
+                  {{ element.name }}
+                </td>
+              </ng-container>
+              <!-- Shares Column -->
+              <ng-container matColumnDef="shares">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Shares
+                </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1">
+                  {{ element.shares }}
+                </td>
+              </ng-container>
+              <!-- Description Column -->
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Desc
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.description | titlecase }}  &nbsp;&nbsp;(&nbsp;{{ element.amount }}&nbsp;)
+                </td>
+              </ng-container>
+              <!-- Credit Column -->
+              <ng-container matColumnDef="credit">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Share Credit
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.credit }}
+                </td>
+              </ng-container>
+              <!-- Debit Column -->
+              <ng-container matColumnDef="debit">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Share Debit
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.debit }}
+                </td>
+              </ng-container>
+              <!-- Balance Column -->
+              <ng-container matColumnDef="balance">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  Balance
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.balance }}
+                </td>
+              </ng-container>
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="f-w-600 mat-subtitle-1 f-s-14">
+                  <span class="m-l-16">Action</span>
+                </th>
+                <td mat-cell *matCellDef="let element" class="mat-body-1">
+                  <mat-icon class="m-l-16 cursor-pointer" title="Edit" [routerLink]="['/tours/accounts']"
+                  [queryParams]="{tour_id:element.tour_id ,transaction_id: element.account_id, member_id: memberId}">edit</mat-icon>
+                  @if (element.amount === element.share_amount) {
+                    <mat-icon class="m-l-16 cursor-pointer" title="Delete"
+                    (click)="deleteTransaction(element.tour_id, element.account_id)">delete{{element.members }}</mat-icon>
+                  }
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="memberTransactionColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: memberTransactionColumns"></tr>
+            </table>
+            @if (transactions.length === 0) {
+              <div class="w-100 d-flex justify-content-center">No records found
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-</div>
+  </div>
+}

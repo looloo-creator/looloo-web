@@ -51,10 +51,34 @@ export class AuthService {
     });
   };
 
-  logout(): void {
+  verifyEmail = (token: string) => {
+    return this.commonService.request(`users/verifyemail/${token}`, 'GET');
+  };
+
+  resendVerificationEmail = (email: string) => {
+    return this.commonService.request(`users/send-verification-link`, 'POST', {
+      email: email,
+    });
+  };
+
+  logout(redirect = true): void {
     this.setLoggedIn(false);
     localStorage.removeItem('auth_token');
-    this.commonService.redirect('/authentication/login');
+    if (redirect) {
+      this.commonService.redirect('/authentication/login');
+    }
+  }
+
+  socialLogin(provider: 'google' | 'microsoft', idToken: string) {
+    return this.commonService
+      .request('users/social-login', 'POST', { provider, idToken })
+      .then((response: any) => {
+        if (response.success && response.data?.jwt) {
+          localStorage.setItem('auth_token', response.data.jwt);
+          window.location.reload();
+        }
+      })
+      .catch((error) => {});
   }
 
   isLoggedIn(): boolean {

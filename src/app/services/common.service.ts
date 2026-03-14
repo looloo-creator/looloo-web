@@ -33,9 +33,14 @@ export class CommonService {
     options: any = {}
   ): Promise<any> => {
     return new Promise((resolve, reject) => {
+      const token = localStorage.getItem('auth_token');
       const httpOptions = {
         ...options,
         withCredentials: true,
+        headers: {
+          ...(options.headers || {}),
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
       };
 
       if (type === 'GET') {

@@ -16,7 +16,7 @@
     <!-- ============================================================== -->
 
     <app-header [showToggle]="!isOver" (toggleCollapsed)="toggleCollapsed()"
-      (toggleMobileNav)="sidenav.toggle()"></app-header>
+    (toggleMobileNav)="sidenav.toggle()"></app-header>
 
     <main class="pageWrapper">
 
@@ -24,10 +24,12 @@
       <!-- Outlet -->
       <!-- ============================================================== -->
       <router-outlet></router-outlet>
-      <div class="loader" *ngIf="loader">
-        <mat-spinner></mat-spinner>
-        <div class="spinner_overlay"></div>
-      </div>
+      @if (loader) {
+        <div class="loader">
+          <mat-spinner></mat-spinner>
+          <div class="spinner_overlay"></div>
+        </div>
+      }
     </main>
   </mat-sidenav-content>
 

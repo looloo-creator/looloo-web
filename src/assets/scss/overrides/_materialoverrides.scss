@@ -1,14 +1,13 @@
-html {
-  @import "./buttons";
-  @import "./drawer";
-  @import "./form";
-  @import "./card";
-  @import "./typography";
-  @import "./borderColor";
-  @import "./table";
-  @import "./list";
-  @import "./checkbox";
-}
+@use "../variables" as *;
+@use "./buttons" as *;
+@use "./drawer" as *;
+@use "./form" as *;
+@use "./card" as *;
+@use "./typography" as *;
+@use "./borderColor" as *;
+@use "./table" as *;
+@use "./list" as *;
+@use "./checkbox" as *;
 
 .topbar {
   background-color: $toolbar;

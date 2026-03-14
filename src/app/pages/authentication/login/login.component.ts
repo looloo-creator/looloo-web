@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { environment } from 'src/environments/environment';
+import { PublicClientApplication, AccountInfo } from '@azure/msal-browser';
+
+declare const google: any;
 
 @Component({
     selector: 'app-login',
@@ -8,40 +11,77 @@ import { AuthService } from 'src/app/services/auth/auth.service';
     standalone: false
 })
 export class AppSideLoginComponent {
-  loginFormSubmitted: boolean = false;
-  rememberDevice: boolean = false;
-  email: string | null = "";
-  password: string | null = "";
+  private msInstance?: PublicClientApplication;
+  constructor(private authService: AuthService) {}
 
-  constructor(private authService: AuthService) {
-    this.rememberDevice = localStorage.getItem('remember_device') ? true : false;
-    if (this.rememberDevice) this.email = localStorage.getItem('email'); this.password = localStorage.getItem('password');
-    this.loginForm.patchValue({
-      email : this.email,
-      password : this.password
+  private ensureGoogleScriptLoaded(): Promise<void> {
+    return new Promise((resolve) => {
+      if ((window as any).google && (window as any).google.accounts) {
+        return resolve();
+      }
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      script.onload = () => resolve();
+      document.head.appendChild(script);
     });
   }
-  loginForm = new FormGroup({
-    email: new FormControl(this.email, [Validators.required, Validators.pattern("[A-Za-z0-9._%-]+@[A-Za-z0-9._%-]+\\.[a-z]{2,3}")]),
-    password: new FormControl(this.password, [Validators.required, Validators.minLength(6)]),
-  });
 
-  get lf() {
-    return this.loginForm.controls;
+  async loginWithGoogle() {
+    await this.ensureGoogleScriptLoaded();
+    google.accounts.id.initialize({
+      client_id: environment.googleClientId,
+      callback: (response: any) => {
+        if (response?.credential) {
+          this.authService.socialLogin('google', response.credential);
+        }
+      },
+    });
+    google.accounts.id.prompt();
   }
 
-  login = () => {
-    this.loginFormSubmitted = true;
-    if (this.loginForm.valid) {
-      let requestData = {
-        "email": this.lf.email.value,
-        "password": this.lf.password.value,
-        "remember_device": this.rememberDevice
-      }
-      this.authService.login(requestData);
+  async loginWithMicrosoft() {
+    if (!this.msInstance) {
+      const msClientId = environment.microsoftClientId;
+      const tenant = environment.microsoftTenantId || 'common';
+      this.msInstance = new PublicClientApplication({
+        auth: {
+          clientId: msClientId,
+          authority: `https://login.microsoftonline.com/${tenant}`,
+          redirectUri: window.location.origin,
+        },
+        cache: {
+          cacheLocation: 'localStorage',
+        },
+      });
+      await this.msInstance.initialize();
     }
-  }
-  toggle(value: boolean) {
-    this.rememberDevice = value;
+
+    const scopes = ['openid', 'profile', 'email'];
+    try {
+      // Force account chooser every time
+      const loginResult = await this.msInstance.loginPopup({
+        scopes,
+        prompt: 'select_account',
+      });
+
+      // Use the fresh login result token; fallback to token acquisition if needed
+      if (loginResult?.idToken) {
+        this.authService.socialLogin('microsoft', loginResult.idToken);
+        return;
+      }
+
+      const account = this.msInstance.getAllAccounts()[0];
+      const tokenResult = account
+        ? await this.msInstance.acquireTokenSilent({ scopes, account })
+        : await this.msInstance.acquireTokenPopup({ scopes, prompt: 'select_account' });
+
+      if (tokenResult?.idToken) {
+        this.authService.socialLogin('microsoft', tokenResult.idToken);
+      }
+    } catch (err) {
+      console.error('Microsoft login failed', err);
+    }
   }
 }

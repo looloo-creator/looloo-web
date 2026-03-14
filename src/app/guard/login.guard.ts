@@ -4,14 +4,19 @@ import { CommonService } from '../services/common.service';
 import { AuthService } from '../services/auth/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginGuard {
-  constructor(private commonService: CommonService, private authService: AuthService) { }
+  constructor(
+    private commonService: CommonService,
+    private authService: AuthService
+  ) {}
 
-  async canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot) {
+  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (state.url.includes('authentication/verify')) {
+      this.authService.logout(false);
+      return true;
+    }
     const authToken = this.authService.getToken();
     if (this.authService.isLoggedIn() && authToken) {
       this.commonService.redirect('/dashboard');
