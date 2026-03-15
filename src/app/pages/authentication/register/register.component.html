@@ -9,32 +9,40 @@
             </a>
           </div>
 
-          <div class="row m-t-24 custom-row" *ngIf="0">
-            <div class="col-12 col-sm-12">
-              <button mat-stroked-button class="w-100">
-                <div class="d-flex align-items-center">
-                  <img src="/assets/images/svgs/google-icon.svg" alt="google" width="16" class="m-r-8" />
-                  Continue with Google
-                </div>
-              </button>
+          @if (0) {
+            <div class="row m-t-24 custom-row">
+              <div class="col-12 col-sm-12">
+                <button mat-stroked-button class="w-100">
+                  <div class="d-flex align-items-center">
+                    <img src="/assets/images/svgs/google-icon.svg" alt="google" width="16" class="m-r-8" />
+                    Continue with Google
+                  </div>
+                </button>
+              </div>
             </div>
-          </div>
+          }
 
-          <div class="or-border m-t-30" *ngIf="0">or sign up with</div>
+          @if (0) {
+            <div class="or-border m-t-30">or sign up with</div>
+          }
 
           <form class="m-t-30" [formGroup]="registerForm" (ngSubmit)="register()">
             <div class="input_group">
               <mat-form-field appearance="outline" class="w-100" color="primary">
                 <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Email Adddress</mat-label>
                 <input matInput type="email" formControlName="email" maxlength="75"/>
-                <mat-error class="error"
-                  *ngIf="rf.email.errors?.['required'] && (registerFormSubmitted)">
-                  Email address can't be empty
-                </mat-error>
-                <mat-error class="error"
-                  *ngIf="!rf.email.errors?.['required'] && rf.email.errors?.['pattern'] && (registerFormSubmitted)">
-                  Please enter a valid email address
-                </mat-error>
+                @if (rf.email.errors?.['required'] && (registerFormSubmitted)) {
+                  <mat-error class="error"
+                    >
+                    Email address can't be empty
+                  </mat-error>
+                }
+                @if (!rf.email.errors?.['required'] && rf.email.errors?.['pattern'] && (registerFormSubmitted)) {
+                  <mat-error class="error"
+                    >
+                    Please enter a valid email address
+                  </mat-error>
+                }
               </mat-form-field>
             </div>
             <div class="input_group">
@@ -42,14 +50,18 @@
               <mat-form-field appearance="outline" class="w-100" color="primary">
                 <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Password</mat-label>
                 <input matInput type="password" formControlName="password" maxlength="25"/>
-                <mat-error class="error"
-                  *ngIf="rf.password.errors?.['required'] && (registerFormSubmitted)">
-                  Password can't be empty
-                </mat-error>
-                <mat-error class="error"
-                  *ngIf="rf.password.errors?.['minlength'] && (registerFormSubmitted)">
-                  Password should be minimum 6 characters
-                </mat-error>
+                @if (rf.password.errors?.['required'] && (registerFormSubmitted)) {
+                  <mat-error class="error"
+                    >
+                    Password can't be empty
+                  </mat-error>
+                }
+                @if (rf.password.errors?.['minlength'] && (registerFormSubmitted)) {
+                  <mat-error class="error"
+                    >
+                    Password should be minimum 6 characters
+                  </mat-error>
+                }
               </mat-form-field>
             </div>
 
@@ -61,7 +73,7 @@
           <span class="d-block f-w-500 text-center m-t-24">Already have an Account?
 
             <a [routerLink]="['/authentication/login']" class="text-decoration-none text-primary f-w-500 f-s-14">
-              Sign In</a>
+            Sign In</a>
           </span>
         </mat-card-content>
       </mat-card>

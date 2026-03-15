@@ -1,3 +1,5 @@
+@use "../variables" as *;
+
 .mdc-checkbox__background {
     border: 1px solid $borderformColor !important;
     width: 19px;
