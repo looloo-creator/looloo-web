@@ -1,5 +1,6 @@
 export const environment = {
-    apiDomain: "https://rajashekarkalisamy.ddns.net/api/",
+    // Point to local API during development so social-login hits your running backend
+    apiDomain: "http://localhost:30000/",
     googleClientId: "1094352326643-997i1qnqr8sl3j6hae0mg1fp7kn0j0gp.apps.googleusercontent.com",
     microsoftClientId: "f58990fc-b443-4aab-b713-51f70191ee48",
     microsoftTenantId: "common"

@@ -30,7 +30,7 @@ export class ToursService {
         const response: any = await this.commonService.request("tours/list");
         if (response.success && response.statusCode === "R200") {
           this.toursUpdated = true;
-          this.toursList = response.data;
+          this.toursList = response.data || [];
         }
       } catch (error) {
         console.error("Error updating tours list", error);
