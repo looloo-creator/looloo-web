@@ -23,7 +23,7 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "allowedCommonJsDependencies": ["apexcharts", "ng-apexcharts"],
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/favicon.ico", "src/assets", "src/staticwebapp.config.json"],
             "styles": [
               "src/styles.scss",
               "src/assets/scss/style.scss"
