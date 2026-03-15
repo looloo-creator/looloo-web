@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "OnepayAdmin": {
+    "LoolooAdmin": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -82,10 +82,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "OnepayAdmin:build:production"
+              "buildTarget": "LoolooAdmin:build:production"
             },
             "development": {
-              "buildTarget": "OnepayAdmin:build:development"
+              "buildTarget": "LoolooAdmin:build:development"
             }
           },
           "options": {
@@ -96,7 +96,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "OnepayAdmin:build"
+            "buildTarget": "LoolooAdmin:build"
           }
         },
         "test": {
