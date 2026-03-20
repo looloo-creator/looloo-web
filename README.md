@@ -1,4 +1,4 @@
-# looloo-admin
+# looloo-web
 
 # Build & Run Application
 sudo docker compose up --build -d
@@ -7,7 +7,7 @@ sudo docker compose up --build -d
 sudo docker compose up -d
 
 # Endpoints
-Looloo Admin: http://localhost:4200/
+Looloo Web: http://localhost:4200/
 
 # Useful Comands 
     Angular Serve: sudo docker exec one-pay-admin ng s --host 0.0.0.0
