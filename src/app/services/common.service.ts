@@ -44,7 +44,7 @@ export class CommonService {
       };
 
       if (type === 'GET') {
-        this.http.get(environment.apiDomain + endPoint, httpOptions).subscribe({
+        this.http.get(`/api/${endPoint}`, httpOptions).subscribe({
           next: (response: any) => {
             if (response instanceof Blob) return resolve(response);
             if (response.success) return resolve(response);
@@ -54,7 +54,7 @@ export class CommonService {
         });
       } else {
         this.http
-          .post(environment.apiDomain + endPoint, data, httpOptions)
+          .post(`/api/${endPoint}`, data, httpOptions)
           .subscribe({
             next: (response: any) => {
               if (response.success) {
