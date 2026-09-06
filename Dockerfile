@@ -1,13 +1,12 @@
-FROM node:18.18.0-slim
+FROM node:24-slim
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json package-lock.json .npmrc ./
 
 RUN npm install
-RUN npm install @angular/cli@15.0.0 -g
 # RUN npm install pm2 -g
 
 COPY . .
 
-CMD ["ng", "s", "--host", "0.0.0.0"]
+CMD ["npm", "start", "--", "--host", "0.0.0.0"]
