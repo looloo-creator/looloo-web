@@ -1,0 +1,68 @@
+.assistant-launcher-layer {
+  position: fixed;
+  right: 28px;
+  bottom: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  pointer-events: none;
+}
+
+.assistant-launcher,
+.assistant-panel { pointer-events: auto; }
+
+.assistant-panel {
+  width: min(760px, calc(100vw - 32px));
+  height: min(680px, calc(100dvh - 112px));
+  min-height: 500px;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 18px 60px #24213a2b, 0 2px 10px #24213a14;
+  animation: assistant-panel-in 160ms ease-out;
+}
+
+.assistant-panel looloo-assistant-chat { display: block; width: 100%; height: 100%; }
+
+.assistant-launcher {
+  min-width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 18px;
+  color: #fff;
+  background: linear-gradient(135deg, #796ef0, #554cc8);
+  box-shadow: 0 8px 22px #554cc84a;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.assistant-launcher:hover { transform: translateY(-2px); box-shadow: 0 11px 26px #554cc855; }
+.assistant-launcher:focus-visible { outline: 3px solid #aaa4ff; outline-offset: 3px; }
+.assistant-launcher svg { width: 21px; height: 21px; fill: currentColor; }
+.assistant-launcher.is-open { width: 50px; min-width: 50px; height: 50px; padding: 0; border-radius: 16px; }
+.assistant-launcher.is-open svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+
+@keyframes assistant-panel-in {
+  from { opacity: 0; transform: translateY(8px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 600px) {
+  .assistant-launcher-layer { right: 14px; bottom: 14px; gap: 10px; }
+  .assistant-panel { width: calc(100vw - 28px); height: min(680px, calc(100dvh - 90px)); min-height: 430px; }
+  .assistant-launcher { height: 52px; border-radius: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assistant-panel { animation: none; }
+  .assistant-launcher { transition: none; }
+}

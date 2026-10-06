@@ -28,6 +28,7 @@ import { PagenotfoundComponent } from './pages/pagenotfound/pagenotfound.compone
 import { TokenInterceptor } from './interceptor/token.interceptor';
 import { ConfirmDialogComponent } from './pages/common/confirm-dialog/confirm-dialog.component';
 import { ModalComponent } from './pages/common/modal/modal.component';
+import { ChatWindowComponent } from '@looloo/assistant';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -43,6 +44,7 @@ import { ModalComponent } from './pages/common/modal/modal.component';
     ],
     exports: [TablerIconsModule],
     bootstrap: [AppComponent], imports: [BrowserModule,
+        ChatWindowComponent,
         AppRoutingModule,
         BrowserAnimationsModule,
         FormsModule,
