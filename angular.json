@@ -23,6 +23,7 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "allowedCommonJsDependencies": ["apexcharts", "ng-apexcharts"],
+            "preserveSymlinks": true,
             "assets": ["src/favicon.ico", "src/assets", "src/staticwebapp.config.json"],
             "styles": [
               "src/styles.scss",
@@ -87,7 +88,11 @@
             }
           },
           "options": {
-            "disableHostCheck": true
+            "disableHostCheck": true,
+            "proxyConfig": "proxy.conf.js",
+            "prebundle": {
+              "exclude": ["@looloo/assistant"]
+            }
           },
           "defaultConfiguration": "development"
         },

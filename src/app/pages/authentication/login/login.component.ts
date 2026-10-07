@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { environment } from 'src/environments/environment';
 
@@ -9,7 +9,10 @@ declare const google: any;
     templateUrl: './login.component.html',
     standalone: false
 })
-export class AppSideLoginComponent {
+export class AppSideLoginComponent implements AfterViewInit {
+  @ViewChild('googleSignInButton', { static: true })
+  private googleSignInButton!: ElementRef<HTMLDivElement>;
+
   constructor(private authService: AuthService) {}
 
   private ensureGoogleScriptLoaded(): Promise<void> {
@@ -26,17 +29,25 @@ export class AppSideLoginComponent {
     });
   }
 
-  async loginWithGoogle() {
+  async ngAfterViewInit() {
     await this.ensureGoogleScriptLoaded();
     google.accounts.id.initialize({
       client_id: environment.googleClientId,
+      use_fedcm_for_button: true,
       callback: (response: any) => {
         if (response?.credential) {
           this.authService.socialLogin('google', response.credential);
         }
       },
     });
-    google.accounts.id.prompt();
+    google.accounts.id.renderButton(this.googleSignInButton.nativeElement, {
+      type: 'standard',
+      theme: 'outline',
+      size: 'large',
+      text: 'continue_with',
+      shape: 'rectangular',
+      width: String(Math.min(this.googleSignInButton.nativeElement.clientWidth || 320, 400)),
+    });
   }
 
   async loginWithMicrosoft() {

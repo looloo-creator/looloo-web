@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
+    "watch:assistant": "npm --prefix ../looloo-assistant run build -- --watch",
     "test": "ng test --browsers=ChromeHeadless"
   },
   "private": true,
