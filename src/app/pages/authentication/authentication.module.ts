@@ -18,6 +18,7 @@ import { AppSideLoginComponent } from './login/login.component';
 import { AppSideRegisterComponent } from './register/register.component';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
     TablerIconsModule.pick(TablerIcons),
   ],
   declarations: [

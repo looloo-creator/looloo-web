@@ -44,7 +44,7 @@
                 {{errormessage}}
               </p>
               <!-- Resend Form -->
-              <form [formGroup]="resendForm" (ngSubmit)="resendEmail()">
+              <form appSubmitOnEnter [formGroup]="resendForm" (ngSubmit)="resendEmail()">
                 <mat-form-field appearance="outline" class="w-100 m-t-16">
                   <mat-label>Email</mat-label>
                   <input matInput type="email" formControlName="email" />

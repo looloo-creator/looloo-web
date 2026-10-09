@@ -9,3 +9,102 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+// Keep Angular Material table headers consistent across pages.
+table.mat-mdc-table tr.mat-mdc-header-row,
+table.mat-table tr.mat-header-row {
+    height: 50px;
+}
+
+table.mat-mdc-table th.mat-mdc-header-cell,
+table.mat-table th.mat-header-cell {
+    height: 50px;
+    padding-top: 0;
+    padding-bottom: 0;
+    background: #f8f9fb;
+    font-weight: 700;
+}
+
+.page-toolbar {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0;
+}
+
+.page-heading {
+    min-width: 0;
+}
+
+.page-title {
+    margin: 0;
+    color: #172b4d;
+    font-size: 22px;
+    font-weight: 650;
+    line-height: 1.3;
+}
+
+.page-subtitle {
+    margin: 5px 0 0;
+    color: #6b778c;
+    font-size: 14px;
+}
+
+.page-actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-action-primary {
+    min-height: 42px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgb(54 132 220 / 18%);
+}
+
+.page-action-secondary {
+    min-height: 42px;
+    border-radius: 10px;
+}
+
+.mat-mdc-card.cardWithShadow.tour-page-card,
+.mat-mdc-card.cardWithShadow.tours-card {
+    border: 1px solid #edf0f5;
+    box-shadow: 0 8px 24px rgb(23 43 77 / 10%), 0 2px 6px rgb(23 43 77 / 5%) !important;
+}
+
+.tour-form-content.mat-mdc-card-content {
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.report-summary.mat-mdc-card-content {
+    padding-top: 12px;
+    padding-bottom: 16px;
+}
+
+.empty-records-message {
+    padding: 24px 12px;
+    color: #6b778c;
+}
+
+.mat-mdc-form-field-required-marker {
+    font-weight: 900;
+}
+
+@media (max-width: 640px) {
+    .page-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 20px 16px 16px;
+    }
+
+    .page-actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+}

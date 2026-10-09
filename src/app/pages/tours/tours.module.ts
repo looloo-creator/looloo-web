@@ -12,6 +12,7 @@ import { AddmemberComponent } from './addmember/addmember.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { ReportComponent } from './report/report.component';
 import { PreviewComponent } from './accounts/preview/preview.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { PreviewComponent } from './accounts/preview/preview.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
     MatNativeDateModule,
   ]
 })

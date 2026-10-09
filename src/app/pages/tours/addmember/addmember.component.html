@@ -1,24 +1,26 @@
 <div class="row">
   <div class="col-lg-12">
-    <form [formGroup]="memberForm" (ngSubmit)="addMember()">
-      <mat-card class="cardWithShadow">
+    <form appSubmitOnEnter [formGroup]="memberForm" (ngSubmit)="addMember()">
+      <mat-card class="cardWithShadow tour-page-card">
         <mat-card-header>
-          <div class="col-md-12 p-24">
-            <mat-card-title>Add Member
-              <button type="button" mat-fab extended class="float-right m-b-20 m-l-20"
-                [routerLink]="'/tours/list'">
-                <mat-icon>cancel</mat-icon>
-                Close
-              </button>
-              <button type="submit" mat-fab extended class="float-right m-b-20">
-                <mat-icon>upload</mat-icon>
-                {{ memberId ? 'Update' :'Add Member' }}
-              </button>
-            </mat-card-title>
-
+          <div class="page-toolbar">
+          <div class="page-heading">
+            <h1 class="page-title">{{ memberId ? 'Edit member' : 'Add a member' }}</h1>
+            <p class="page-subtitle">{{ memberId ? 'Update this member’s details.' : 'Add someone to the tour and track their share of expenses.' }}</p>
+          </div>
+          <div class="page-actions">
+            <button type="button" mat-stroked-button class="page-action-secondary" [routerLink]="'/tours/list'">
+              <mat-icon>close</mat-icon>
+              Close
+            </button>
+            <button type="submit" mat-flat-button color="primary" class="page-action-primary">
+              <mat-icon>upload</mat-icon>
+              {{ memberId ? 'Update member' : 'Add member' }}
+            </button>
+          </div>
           </div>
         </mat-card-header>
-        <mat-card-content>
+        <mat-card-content class="tour-form-content">
           <div class="col-md-12 d-flex">
             <div class="col-md-4">
               <div class="input_group">
